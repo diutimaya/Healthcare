@@ -132,6 +132,25 @@ pipeline {
                 // bat 'cd server && npm test -- --reporter=jest-junit'
             }
         }
+
+        // ====================================================================
+        // DOCKER BUILD & DEPLOY
+        // ====================================================================
+        stage('Docker Build & Deploy') {
+            steps {
+                echo "Building and deploying application using Docker Compose..."
+                
+                // Stop existing containers and start new ones in detached mode
+                bat 'docker-compose down'
+                bat 'docker-compose up --build -d'
+                
+                script {
+                    def content = readFile file: env.REPORT_FILE
+                    content += "- ✅ **Deployment**: Successfully built Docker images and deployed via docker-compose.\n"
+                    writeFile file: env.REPORT_FILE, text: content
+                }
+            }
+        }
     }
 
     // ====================================================================
