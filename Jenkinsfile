@@ -156,8 +156,14 @@ pipeline {
             steps {
                 echo "Building and deploying application using Docker Compose..."
                 
-                // Stop existing containers and start new ones in detached mode
+                // Stop existing containers for this Jenkins workspace
                 bat 'docker-compose down'
+                
+                // Forcibly remove containers if they were left running from your local terminal
+                // 'exit 0' prevents the pipeline from failing if the containers don't exist
+                bat 'docker rm -f agentic-care-client agentic-care-server || exit 0'
+                
+                // Start the new containers
                 bat 'docker-compose up --build -d'
                 
                 script {
