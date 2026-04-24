@@ -36,12 +36,14 @@ import symptomRoutes from './routes/symptomRoutes.js';
 import appointmentRoutes from './routes/appointmentRoutes.js';
 import specialistRoutes from './routes/specialistRoutes.js';
 import travelRoutes from './routes/travelRoutes.js';
+import chatRoutes from './routes/chatRoutes.js';
 
 app.use('/api/auth', authRoutes);
 app.use('/api/symptoms', symptomRoutes);
 app.use('/api/appointments', appointmentRoutes);
 app.use('/api/specialists', specialistRoutes);
 app.use('/api/travel', travelRoutes);
+app.use('/api/chat', chatRoutes);
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Agentic Care API is running' });

@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { Home, FileText, Calendar, Map, Lightbulb, User, LogOut, ChevronLeft, Bell } from 'lucide-react';
+import Chatbot from './Chatbot';
 
 export default function Layout({ children }) {
   const { user, logout } = useContext(AuthContext);
@@ -83,10 +84,13 @@ export default function Layout({ children }) {
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 overflow-y-auto">
+        <main className="flex-1 overflow-y-auto relative">
           {children}
         </main>
       </div>
+
+      {/* Global Floating Chatbot */}
+      <Chatbot />
     </div>
   );
 }
