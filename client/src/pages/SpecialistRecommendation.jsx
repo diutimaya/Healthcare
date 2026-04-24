@@ -10,6 +10,7 @@ export default function SpecialistRecommendation() {
   const [specialists, setSpecialists] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filterSpec, setFilterSpec] = useState(initialSpecialty);
+  const [filterLocation, setFilterLocation] = useState('All Locations');
   const [availableOnly, setAvailableOnly] = useState(false);
   const [sortBy, setSortBy] = useState('Rating');
   const navigate = useNavigate();
@@ -31,9 +32,11 @@ export default function SpecialistRecommendation() {
   };
 
   const departments = ['All', ...new Set(specialists.map(s => s.specialty))];
+  const locations = ['All Locations', ...new Set(specialists.map(s => s.city).filter(Boolean))];
 
   const filtered = specialists
     .filter(s => filterSpec === 'All' || s.specialty === filterSpec)
+    .filter(s => filterLocation === 'All Locations' || s.city === filterLocation)
     .filter(s => !availableOnly || s.online_available)
     .sort((a, b) => {
       if (sortBy === 'Rating') return (b.rating || 0) - (a.rating || 0);
@@ -54,6 +57,12 @@ export default function SpecialistRecommendation() {
           <select className="input-field py-1.5 w-full md:w-48 text-sm" value={filterSpec} onChange={e => setFilterSpec(e.target.value)}>
             {departments.map(d => (
               <option key={d} value={d}>{d}</option>
+            ))}
+          </select>
+
+          <select className="input-field py-1.5 w-full md:w-48 text-sm" value={filterLocation} onChange={e => setFilterLocation(e.target.value)}>
+            {locations.map(l => (
+              <option key={l} value={l}>{l}</option>
             ))}
           </select>
           
