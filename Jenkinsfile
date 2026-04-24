@@ -34,8 +34,8 @@ pipeline {
             steps {
                 echo "Pulling environment variables from Jenkins Secret Text..."
                 
-                // Uses a Jenkins 'Secret text' credential with ID 'MERN_ENV_FILE'
-                withCredentials([string(credentialsId: 'MERN_ENV_FILE', variable: 'SECRET_ENV_CONTENT')]) {
+                // Uses a Jenkins 'Secret text' credential with ID 'env-file'
+                withCredentials([string(credentialsId: 'env-file', variable: 'SECRET_ENV_CONTENT')]) {
                     script {
                         // Write the secret content directly to server/.env
                         writeFile file: 'server/.env', text: env.SECRET_ENV_CONTENT
