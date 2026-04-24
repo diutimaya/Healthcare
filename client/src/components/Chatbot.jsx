@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { MessageSquare, X, Send, User, Bot, Loader2 } from 'lucide-react';
+import api from '../api';
 
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,20 +32,14 @@ export default function Chatbot() {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5000/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        // Send history excluding the latest user message
-        body: JSON.stringify({ message: userMsg.text, history: messages }),
+      const response = await api.post('/chat', {
+        message: userMsg.text, 
+        history: messages 
       });
 
-      const data = await response.json();
-      if (response.ok) {
-        setMessages([...currentMessages, { id: Date.now() + 1, sender: 'bot', text: data.reply }]);
-      } else {
-        setMessages([...currentMessages, { id: Date.now() + 1, sender: 'bot', text: 'Sorry, I encountered an error communicating with the server.' }]);
-      }
+      setMessages([...currentMessages, { id: Date.now() + 1, sender: 'bot', text: response.data.reply }]);
     } catch (error) {
+      console.error("Chatbot Error:", error);
       setMessages([...currentMessages, { id: Date.now() + 1, sender: 'bot', text: 'Sorry, network error. Please try again later.' }]);
     } finally {
       setIsLoading(false);
