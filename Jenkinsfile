@@ -2,11 +2,8 @@ pipeline {
     // Run on any available Jenkins agent
     agent any
 
-    // Ensure Node.js is available on the agent
-    // Note: 'node-20' needs to be configured in Jenkins Global Tool Configuration
-    tools {
-        nodejs 'node-20' 
-    }
+    // Removed tools block because NodeJS plugin is not installed in Jenkins.
+    // Jenkins will use the Node.js installed globally on your machine instead.
 
     environment {
         // Environment variables for the pipeline
